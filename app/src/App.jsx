@@ -3,17 +3,19 @@ import { initialTeams, initialTracks, initialTasks, STATUS_CONFIG } from './data
 import { addDays, startOfWeek, formatDate } from './utils'
 import Timeline from './components/Timeline'
 import TaskModal from './components/TaskModal'
+import ManageModal from './components/ManageModal'
 
 const NUM_WEEKS = 26 // visible window width
 
 export default function App() {
-  const [teams]  = useState(initialTeams)
-  const [tracks] = useState(initialTracks)
+  const [teams,  setTeams]  = useState(initialTeams)
+  const [tracks, setTracks] = useState(initialTracks)
   const [tasks,  setTasks]  = useState(initialTasks)
 
-  const [selectedTask,  setSelectedTask]  = useState(null)
-  const [isModalOpen,   setIsModalOpen]   = useState(false)
-  const [isNewTask,     setIsNewTask]     = useState(false)
+  const [selectedTask,   setSelectedTask]   = useState(null)
+  const [isModalOpen,    setIsModalOpen]    = useState(false)
+  const [isNewTask,      setIsNewTask]      = useState(false)
+  const [isManageOpen,   setIsManageOpen]   = useState(false)
 
   const today          = new Date()
   const defaultStart   = startOfWeek(addDays(today, -7 * 8)) // 8 weeks before today
@@ -67,6 +69,16 @@ export default function App() {
     setIsNewTask(false)
   }
 
+  // ── Teams & tracks management ──────────────────────────
+  const saveTeamsAndTracks = (newTeams, newTracks) => {
+    // Remove tasks whose track no longer exists
+    const validTrackIds = new Set(newTracks.map(t => t.id))
+    setTasks(prev => prev.filter(t => validTrackIds.has(t.trackId)))
+    setTeams(newTeams)
+    setTracks(newTracks)
+    setIsManageOpen(false)
+  }
+
   // ── Navigation ─────────────────────────────────────────
   const navigate = (weeks) => setViewStart(prev => addDays(prev, weeks * 7))
   const goToday  = () => setViewStart(defaultStart)
@@ -113,6 +125,30 @@ export default function App() {
 
         <div style={{ width: 1, height: 20, background: '#334155' }} />
 
+        {/* Manage button */}
+        <button
+          onClick={() => setIsManageOpen(true)}
+          style={{
+            background: 'none',
+            color: '#94a3b8',
+            border: '1px solid #334155',
+            borderRadius: 6,
+            padding: '5px 12px',
+            fontSize: 12,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 5,
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#f8fafc'; e.currentTarget.style.borderColor = '#475569' }}
+          onMouseLeave={e => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.borderColor = '#334155' }}
+        >
+          ⚙ Teams &amp; Tracks
+        </button>
+
+        <div style={{ width: 1, height: 20, background: '#334155' }} />
+
         {/* Legend */}
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
           {legend.map(([key, cfg]) => (
@@ -137,7 +173,7 @@ export default function App() {
         />
       </div>
 
-      {/* ══ Modal ════════════════════════════════════════ */}
+      {/* ══ Task modal ═══════════════════════════════════ */}
       {isModalOpen && selectedTask && (
         <TaskModal
           task={selectedTask}
@@ -147,6 +183,17 @@ export default function App() {
           onSave={saveTask}
           onDelete={deleteTask}
           onClose={closeModal}
+        />
+      )}
+
+      {/* ══ Manage teams & tracks modal ══════════════════ */}
+      {isManageOpen && (
+        <ManageModal
+          teams={teams}
+          tracks={tracks}
+          tasks={tasks}
+          onSave={saveTeamsAndTracks}
+          onClose={() => setIsManageOpen(false)}
         />
       )}
     </div>
