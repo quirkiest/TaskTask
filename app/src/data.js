@@ -14,10 +14,22 @@ export const PRIORITY_CONFIG = {
   L:  { label: 'L',  bg: '#e2e8f0', text: '#64748b' },
 }
 
-export const MAGNITUDES = ['S', 'M', 'L', 'XL']
+export const MAGNITUDES = ['XS', 'S', 'M', 'L', 'XL']
 export const STATUSES   = Object.keys(STATUS_CONFIG)
 export const PRIORITIES = Object.keys(PRIORITY_CONFIG)
 export const TYPES      = ['Support', 'Product', 'Solution', 'R&D', 'Infrastructure']
+
+// Shared type display config — used by TaskCard and TaskModal
+export const TYPE_CONFIG = {
+  'Support':        { abbr: 'SUP', bg: '#dbeafe', color: '#1d4ed8' },
+  'Product':        { abbr: 'PRD', bg: '#ede9fe', color: '#6d28d9' },
+  'Solution':       { abbr: 'SOL', bg: '#dcfce7', color: '#15803d' },
+  'R&D':            { abbr: 'R&D', bg: '#ffedd5', color: '#c2410c' },
+  'Infrastructure': { abbr: 'INF', bg: '#f1f5f9', color: '#475569' },
+}
+
+// Helper to create a seed comment entry
+const note = (text) => [{ id: '1', text, ts: new Date('2026-04-01T09:00:00').toISOString() }]
 
 export const initialTeams = [
   { id: 'dev',  name: 'Dev Team',  color: '#2563eb' },
@@ -40,90 +52,103 @@ export const initialTasks = [
     type: 'Support', status: 'active', priority: 'H', magnitude: 'XL',
     startDate: '2026-01-05', endDate: '2026-09-27',
     labels: ['ongoing'], percentComplete: 45,
-    comment: 'Ongoing support track', estimate: null, githubRef: 'multiple',
+    comments: note('Ongoing support track'), estimate: null, githubRef: 'multiple',
+    history: [],
   },
   {
     id: 'P23', trackId: 'dev-t1', name: 'Hubspot Support',
     type: 'Support', status: 'active', priority: 'H', magnitude: 'XL',
     startDate: '2026-01-05', endDate: '2026-09-27',
     labels: ['ongoing', 'hubspot'], percentComplete: 30,
-    comment: '', estimate: null, githubRef: 'multiple',
+    comments: [], estimate: null, githubRef: 'multiple',
+    history: [],
   },
   {
     id: 'P24', trackId: 'dev-t2', name: 'Codex IDR Core Engineering (Beta)',
     type: 'Solution', status: 'atrisk', priority: 'VH', magnitude: 'XL',
     startDate: '2026-02-02', endDate: '2026-06-28',
     labels: ['codex', 'idr'], percentComplete: 40,
-    comment: 'At risk: scope has grown since kickoff', estimate: null, githubRef: 'multiple',
+    comments: note('At risk: scope has grown since kickoff'), estimate: null, githubRef: 'multiple',
+    history: [],
   },
   {
     id: 'P04', trackId: 'dev-t2', name: 'New CS-UBO UX (TokyoGov)',
     type: 'Product', status: 'active', priority: 'H', magnitude: 'XL',
     startDate: '2026-04-06', endDate: '2026-07-26',
     labels: ['tokyogov', 'ux'], percentComplete: 20,
-    comment: '', estimate: null, githubRef: 'n/a',
+    comments: [], estimate: null, githubRef: 'n/a',
+    history: [],
   },
   {
     id: 'P33', trackId: 'dev-t3', name: 'Mini AME Batch Utility',
     type: 'Product', status: 'active', priority: 'VH', magnitude: 'M',
     startDate: '2026-03-23', endDate: '2026-05-10',
     labels: ['fulfilment', 'urgent'], percentComplete: 60,
-    comment: '', estimate: 15, githubRef: '230',
+    comments: [], estimate: 15, githubRef: '230',
+    history: [],
   },
   {
     id: 'P12', trackId: 'dev-t3', name: 'Replace AME in CS-UBO',
     type: 'Product', status: 'notstarted', priority: 'H', magnitude: 'XL',
     startDate: '2026-06-01', endDate: '2026-10-25',
     labels: ['codex', 'tokyogov'], percentComplete: 0,
-    comment: 'Waiting for Codex IDR (P24)', estimate: 100, githubRef: '654, 171',
+    comments: note('Waiting for Codex IDR (P24)'), estimate: 100, githubRef: '654, 171',
+    history: [],
   },
   {
     id: 'P26', trackId: 'dev-t3', name: 'Wire up APIs for Neg Data UI',
     type: 'Solution', status: 'paused', priority: 'H', magnitude: 'XL',
     startDate: '2026-05-11', endDate: '2026-08-09',
     labels: ['tokyogov', 'neg-data'], percentComplete: 25,
-    comment: 'Paused pending TokyoGov sign-off', estimate: null, githubRef: 'multiple',
+    comments: note('Paused pending TokyoGov sign-off'), estimate: null, githubRef: 'multiple',
+    history: [],
   },
   {
     id: 'P03', trackId: 'data-t2', name: 'Nikkei Article Project',
     type: 'Product', status: 'active', priority: 'VH', magnitude: 'XL',
     startDate: '2026-02-16', endDate: '2026-07-12',
     labels: ['nikkei'], percentComplete: 55,
-    comment: '', estimate: null, githubRef: 'multiple',
+    comments: [], estimate: null, githubRef: 'multiple',
+    history: [],
   },
   {
     id: 'P34', trackId: 'data-t2', name: 'Nikkei "Relationships" Sub-project',
     type: 'Product', status: 'active', priority: 'VH', magnitude: 'M',
     startDate: '2026-04-06', endDate: '2026-05-31',
     labels: ['nikkei', 'urgent'], percentComplete: 0,
-    comment: '', estimate: 15, githubRef: '75',
+    comments: [], estimate: 15, githubRef: '75',
+    history: [],
   },
   {
     id: 'P08', trackId: 'data-t1', name: 'Pension Fund Search System',
     type: 'R&D', status: 'active', priority: 'H', magnitude: 'L',
     startDate: '2026-02-23', endDate: '2026-05-17',
     labels: [], percentComplete: 0,
-    comment: 'R&D by data team', estimate: 35, githubRef: '129',
+    comments: note('R&D by data team'), estimate: 35, githubRef: '129',
+    history: [],
   },
   {
     id: 'P14', trackId: 'data-t3', name: 'Codex IDR Mizuho Demo',
     type: 'Product', status: 'done', priority: 'M', magnitude: 'L',
     startDate: '2026-03-02', endDate: '2026-04-05',
     labels: ['codex', 'idr', 'mizuho'], percentComplete: 100,
-    comment: 'Delivered on schedule', estimate: null, githubRef: '139',
+    comments: note('Delivered on schedule'), estimate: null, githubRef: '139',
+    history: [],
   },
   {
     id: 'P16', trackId: 'data-t1', name: 'Demo Data for Sales Team',
     type: 'Product', status: 'paused', priority: 'M', magnitude: 'L',
     startDate: '2026-05-18', endDate: '2026-07-26',
     labels: ['sales', 'synthetic'], percentComplete: 0,
-    comment: '', estimate: null, githubRef: null,
+    comments: [], estimate: null, githubRef: null,
+    history: [],
   },
   {
     id: 'P31', trackId: 'data-t3', name: 'Batch ETC Display On-Screen',
     type: 'Product', status: 'notstarted', priority: 'L', magnitude: 'S',
     startDate: '2026-04-20', endDate: '2026-06-14',
     labels: [], percentComplete: 0,
-    comment: 'Scheduled, not yet started', estimate: null, githubRef: '346',
+    comments: note('Scheduled, not yet started'), estimate: null, githubRef: '346',
+    history: [],
   },
 ]
