@@ -55,18 +55,19 @@ function PriorityStars({ priority }) {
   )
 }
 
-// ── Size: charcoal stacked bars (DEFAULT) ─────────────────────────────────────
-// XS=1  S=2  M=3  L=4  XL=5  — uniform charcoal (scale, not urgency)
-const SIZE_BAR_COUNT = { XS: 1, S: 2, M: 3, L: 4, XL: 5 }
+// ── Size: charcoal stacked bars (alt option) ──────────────────────────────────
+// XS=1  S=2  M=3  L=4  XL=5  XXL=6 — uniform charcoal (scale, not urgency)
+const SIZE_BAR_COUNT = { XS: 1, S: 2, M: 3, L: 4, XL: 5, XXL: 6 }
 
 function SizeBars({ magnitude }) {
   const count = SIZE_BAR_COUNT[magnitude] ?? 3
+  const total = 6
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', gap: 2,
       alignItems: 'center', justifyContent: 'center', flexShrink: 0,
     }}>
-      {[5, 4, 3, 2, 1].map(i => (
+      {Array.from({ length: total }, (_, k) => total - k).map(i => (
         <div key={i} style={{
           width: 13, height: 3, borderRadius: 1,
           background: i <= count ? '#64748b' : '#dde3ec',
@@ -76,9 +77,25 @@ function SizeBars({ magnitude }) {
   )
 }
 
+// ── Size: t-shirt emoji + label (DEFAULT) ─────────────────────────────────────
+function SizeTshirt({ magnitude }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0,
+      background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.10)',
+      borderRadius: 8, padding: '1px 5px',
+    }}>
+      <span style={{ fontSize: 10, lineHeight: 1 }}>👕</span>
+      <span style={{ fontSize: 9, fontWeight: 800, color: '#1e293b', letterSpacing: '0.2px' }}>
+        {magnitude}
+      </span>
+    </div>
+  )
+}
+
 // ── Size: gold stars in cartouche (alt option) ────────────────────────────────
-// XS=1★ … XL=5★
-const SIZE_STAR_COUNT = { XS: 1, S: 2, M: 3, L: 4, XL: 5 }
+// XS=1★ … XXL=6★
+const SIZE_STAR_COUNT = { XS: 1, S: 2, M: 3, L: 4, XL: 5, XXL: 6 }
 
 function SizeStars({ magnitude }) {
   const count = SIZE_STAR_COUNT[magnitude] ?? 3
@@ -171,6 +188,11 @@ export default function TaskCard({ task, style, onDragStart, isDragging }) {
       )}
 
       {/* Size */}
+      {settings.sizeDisplay === 'tshirt' && (
+        <Tooltip label={`Size: ${task.magnitude}`}>
+          <SizeTshirt magnitude={task.magnitude} />
+        </Tooltip>
+      )}
       {settings.sizeDisplay === 'bars' && (
         <Tooltip label={`Size: ${task.magnitude}`}>
           <SizeBars magnitude={task.magnitude} />

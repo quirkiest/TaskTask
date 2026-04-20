@@ -28,10 +28,23 @@ function PriorityBarsPreview() {
   )
 }
 
+function SizeTshirtPreview() {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 3,
+      background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.10)',
+      borderRadius: 8, padding: '2px 7px',
+    }}>
+      <span style={{ fontSize: 13, lineHeight: 1 }}>👕</span>
+      <span style={{ fontSize: 11, fontWeight: 800, color: '#1e293b', letterSpacing: '0.2px' }}>M</span>
+    </div>
+  )
+}
+
 function SizeBarsPreview() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
-      {[5, 4, 3, 2, 1].map(i => (
+      {[6, 5, 4, 3, 2, 1].map(i => (
         <div key={i} style={{
           width: 18, height: 3, borderRadius: 1,
           background: i <= 3 ? '#64748b' : '#dde3ec',
@@ -144,10 +157,11 @@ const SECTIONS = [
     label: 'Size indicator',
     description: 'How task size is shown on timeline cards',
     options: [
-      { value: 'bars',   label: 'Bars',   Preview: SizeBarsPreview },
-      { value: 'stars',  label: 'Stars',  Preview: SizeStarsPreview },
-      { value: 'clock',  label: 'Clock',  Preview: SizeClockPreview },
-      { value: 'hidden', label: 'Hidden', Preview: HiddenPreview },
+      { value: 'tshirt', label: 'T-shirt', Preview: SizeTshirtPreview },
+      { value: 'bars',   label: 'Bars',    Preview: SizeBarsPreview },
+      { value: 'stars',  label: 'Stars',   Preview: SizeStarsPreview },
+      { value: 'clock',  label: 'Clock',   Preview: SizeClockPreview },
+      { value: 'hidden', label: 'Hidden',  Preview: HiddenPreview },
     ],
   },
   {

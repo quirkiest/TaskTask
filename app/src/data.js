@@ -14,7 +14,7 @@ export const PRIORITY_CONFIG = {
   L:  { label: 'L',  bg: '#e2e8f0', text: '#64748b' },
 }
 
-export const MAGNITUDES = ['XS', 'S', 'M', 'L', 'XL']
+export const MAGNITUDES = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 export const STATUSES   = Object.keys(STATUS_CONFIG)
 export const PRIORITIES = Object.keys(PRIORITY_CONFIG)
 export const TYPES      = ['Support', 'Product', 'Solution', 'R&D', 'Infrastructure']

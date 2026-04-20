@@ -10,7 +10,7 @@ const STATUS_OPTS = STATUSES.map(s => ({
   color: STATUS_CONFIG[s].text,
 }))
 
-const SIZE_LEVELS = ['XS', 'S', 'M', 'L', 'XL']
+const SIZE_LEVELS = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 const PRIORITY_LEVELS = ['L', 'M', 'H', 'VH']
 const PRIORITY_LABELS = { L: 'Low', M: 'Medium', H: 'High', VH: 'Very High' }
 const PRIORITY_COLORS = { L: '#16a34a', M: '#ca8a04', H: '#ea580c', VH: '#dc2626' }
@@ -86,34 +86,37 @@ function PriorityStarsSelector({ value, onChange }) {
   )
 }
 
-// ── SizeBarsSelector ──────────────────────────────────────────────────────────
-// Interactive charcoal bars — XS=1 bar … XL=5 bars
+// ── SizeTshirtSelector ────────────────────────────────────────────────────────
+// T-shirt chip row — click to select size
 
-function SizeBarsSelector({ value, onChange }) {
-  const [hover, setHover] = useState(null)
-  const currentIdx = SIZE_LEVELS.indexOf(value)   // 0–4
-  const activeIdx  = hover !== null ? hover : currentIdx
-
-  // Bars rendered top→bottom: [4,3,2,1,0] → XL at top, XS at bottom
+function SizeTshirtSelector({ value, onChange }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }} onMouseLeave={() => setHover(null)}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, cursor: 'pointer' }}>
-        {[4, 3, 2, 1, 0].map((barIdx) => (
-          <div
-            key={barIdx}
-            onClick={() => onChange(SIZE_LEVELS[barIdx])}
-            onMouseEnter={() => setHover(barIdx)}
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+      {SIZE_LEVELS.map(size => {
+        const active = value === size
+        return (
+          <button
+            key={size}
+            type="button"
+            onClick={() => onChange(size)}
             style={{
-              width: 44, height: 7, borderRadius: 2,
-              background: barIdx <= activeIdx ? '#64748b' : '#dde3ec',
-              transition: 'background 0.1s', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: 4,
+              padding: '6px 10px', borderRadius: 8, cursor: 'pointer',
+              border: active ? '2px solid #475569' : '2px solid #e2e8f0',
+              background: active ? '#f1f5f9' : '#f8fafc',
+              fontFamily: 'inherit', transition: 'all 0.1s',
             }}
-          />
-        ))}
-      </div>
-      <span style={{ fontSize: 14, fontWeight: 700, color: '#64748b', minWidth: 28 }}>
-        {SIZE_LEVELS[activeIdx] ?? value}
-      </span>
+          >
+            <span style={{ fontSize: 16, lineHeight: 1 }}>👕</span>
+            <span style={{
+              fontSize: 12, fontWeight: 800, color: active ? '#1e293b' : '#94a3b8',
+              letterSpacing: '0.3px',
+            }}>
+              {size}
+            </span>
+          </button>
+        )
+      })}
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react'
 
 export const DEFAULT_SETTINGS = {
   priorityDisplay:   'stars',  // 'stars' | 'bars' | 'text' | 'hidden'
-  sizeDisplay:       'bars',   // 'bars' | 'stars' | 'clock' | 'hidden'
+  sizeDisplay:       'tshirt', // 'tshirt' | 'bars' | 'stars' | 'clock' | 'hidden'
   typeDisplay:       'stripe', // 'stripe' | 'badge' | 'dot' | 'hidden'
   indicatorPosition: 'right',  // 'left' | 'center' | 'right'
 }
